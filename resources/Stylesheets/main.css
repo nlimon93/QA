@@ -1,13 +1,36 @@
 /* Body Region */
 
-header {
-    position: static;
+body {
+    margin: 0;
 }
 
-header#login {
-    right: 100px;
-    width: 300px;
-    height: 100px;
+header {
+    margin: 0;
+    position: static;
+    background: grey;
+    height: 5%;
+    min-height: 30px;
+    max-height: 50px;
+}
+
+header div#login {
+    float: none;
+    margin: 0;
+    min-width: 5%;
+    max-width: 10%;
+    position: right;
+}
+
+#login form {
+    margin: auto;
+    width: 100px;
+    height: 100%;
+}
+
+#login button {
+    margin: 0%;
+    width: 100px;
+    height: 100%;
 }
 
 
@@ -19,10 +42,16 @@ header#login {
 .Quiz {
     float: left;
     width: 50%;
+    height: 100%;
 }
 
 #Q {
-    margin: auto;
+    position: relative;
+    top: 50%;
+    bottom: 25;
+    left: 25%;
+    right: 25%;
+    border-radius: 25px;
     width: 50%;
     height: 300px;
 }
@@ -30,10 +59,16 @@ header#login {
 .Answer {
     float: right;
     width: 50%;
+    height: 100%;
 }
 
 #A {
-    margin: auto;
+    position: relative;
+    top: 50%;
+    bottom: 25;
+    left: 25%;
+    right: 25%;
+    border-radius: 25px;
     width: 50%;
     height: 300px;
 }

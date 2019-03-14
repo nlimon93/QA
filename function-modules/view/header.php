@@ -8,53 +8,54 @@
 	<link rel="stylesheet" href="resources/Stylesheets/main.css">
 	<link rel="stylesheet" href="resources/Stylesheets/login.css">
 	<script src="resources/javascript/main.js" type="text/javascript" async="true"></script>
-	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<!--script src="https://www.google.com/recaptcha/api.js" async defer></script-->
 </head>
 <body>
 <header>
-    <!--Generate Login Bar based on login status, Check Viewport size and apply necisary adjustments-->
-    <?php ?>
+	<!--Generate Login Bar based on login status, Check Viewport size and apply necisary adjustments-->
 	<div id="login">
+    <?php if (true) : ?>
+
 		<button onclick="document.getElementById('id01').style.display='block'">Login</button>
-    </div>
-    <?php ?>
+
+	<?php endif;?>
 
     <!--If Logged in, Grant access to new menu options and replace login button with logut-->
-    <?php ?>
+    <?php if (false) :?>
 
-    <div id="login">
+
         <form action="/function-modules/phplogin/Logout.php" method="POST">
             <input type="hidden" name="user" value="<?php #this user;?>"/>
             <input type="submit" name="logout" value="Logout"/>
         </form>
-    </div>
-    <?php ?>
 
+	<?php endif;?>
+    </div>
     <!--The Login Box-->
     <div id="id01" class="modal">
-		<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-		<form class="modal-content animate" action="/function-modules/phplogin/LoginAttempt.php">
+		<span onclick="document.getElementById('id01').style.display='none'" class="close Mspan" title="Close Modal">&times;</span>
+		<form class="modal-content Mform animate" action="/qna/function-modules/phplogin/loginAttempt.php" method="post">
 			<div class="container">
 				<label for="uname"><b>Username</b></label>
-				<input type="text" placeholder="Enter Username" name="uname" required>
+				<input type="text" class="Minput" placeholder="Enter Username" name="uname" required>
 				<label for="psw"><b>Password</b></label>
-				<input type="password" placeholder="Enter Password" name="psw" required>
-    			<button type="submit">Login</button>
-				<div class="g-recaptcha" data-sitekey="your_site_key"></div>
+				<input type="password" class="Minput" placeholder="Enter Password" name="psw" required>
+				<button class="Mbutton" type="submit">Login</button>
+				<div class="container" style="background-color:$f1f1f1">
+                	<button class="Mbutton" type="button">Register</button>
+           		</div>
+				<!--div class="g-recaptcha" data-sitekey="your_site_key"></div-->
 				<br>
 				<br>
 				<label>
 					<input type="checkbox" checked="checked" name="remember"> Remember Me
 				</label>
 			</div>
-			<div class="container" style="background-color:$f1f1f1">
+			<div class="container " style="background-color:$f1f1f1">
 				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">cancel</button>
-				<span class="psw">Forgot <a href="#">password?</a></span>
+				<span class="psw Mspan">Forgot <a href="#">password?</a></span>
             </div>
             <!--Close Login Screen open Registrar Screen-->
-            <div class="container" style="background-color:$f1f1f1">
-                <button type="button"></button>
-            </div>
 		</form>
 	</div>
     <!---->
