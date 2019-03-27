@@ -16,7 +16,7 @@
 	<div id="login">
     <?php if (true) : ?>
 
-		<button onclick="document.getElementById('id01').style.display='block'">Login</button>
+		<button onclick="document.getElementById('logform').style.display='block'">Login</button>
 
 	<?php endif;?>
 
@@ -32,18 +32,23 @@
 	<?php endif;?>
     </div>
     <!--The Login Box-->
-    <div id="id01" class="modal">
-		<span onclick="document.getElementById('id01').style.display='none'" class="close Mspan" title="Close Modal">&times;</span>
+    <div id="logform" class="modal">
+		<span onclick="document.getElementById('logform').style.display='none'" class="close Mspan" title="Close Modal">&times;</span>
 		<form class="modal-content Mform animate" action="/qna/function-modules/phplogin/loginAttempt.php" method="post">
 			<div class="container">
+				<input type="hidden" id="regswitch" name="register" value="false">
+				<label for="email" class="register" style="display:none">Email</label>
+				<input type="email" id="regemail" class="Minput register" style="display:none" placeholder="example@example.com" name="email">
 				<label for="uname"><b>Username</b></label>
 				<input type="text" class="Minput" placeholder="Enter Username" name="uname" required>
 				<label for="psw"><b>Password</b></label>
 				<input type="password" class="Minput" placeholder="Enter Password" name="psw" required>
-				<button class="Mbutton" type="submit">Login</button>
-				<div class="container" style="background-color:$f1f1f1">
-                	<button class="Mbutton" type="button">Register</button>
-           		</div>
+				<label for="rpsw" class="register" id="regpswconf" style="display:none"><b>Confirm Password</b></label>
+				<input type="password" id="retypepsw" class="Minput register" style="display:none" placeholder="Enter Password" name="rpsw">
+				<button class="Mbutton login" type="submit">Login</button>
+				<button class="Mbutton register" style="display:none" type="submit">Register</button>
+                <button class="Mbutton login" onclick="adjustFormToRegister()" type="button">Register?</button>
+				<button class="Mbutton register" onclick="adjustFormToLogin()" style="display:none" type="button">Login?</button>
 				<!--div class="g-recaptcha" data-sitekey="your_site_key"></div-->
 				<br>
 				<br>
@@ -52,8 +57,8 @@
 				</label>
 			</div>
 			<div class="container " style="background-color:$f1f1f1">
-				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">cancel</button>
-				<span class="psw Mspan">Forgot <a href="#">password?</a></span>
+				<button type="button" onclick="document.getElementById('logform').style.display='none'" class="cancelbtn">cancel</button>
+				<span class="psw Mspan login">Forgot <a href="#">password?</a></span>
             </div>
             <!--Close Login Screen open Registrar Screen-->
 		</form>
