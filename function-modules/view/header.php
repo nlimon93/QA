@@ -16,21 +16,21 @@
 <header>
 	<!--Generate Login Bar based on login status, Check Viewport size and apply necisary adjustments-->
 	<div id="login">
-    <?php if (array_key_exists('loggedin', $_SESSION) == false) : ?>
+		<?php if (array_key_exists('loggedin', $_SESSION) == false) : ?>
 
-		<button onclick="document.getElementById('logform').style.display='block'" class="raised">Login</button>
+			<button onclick="document.getElementById('logform').style.display='block'" class="raised">Login</button>
 
-	<?php endif;?>
+		<?php endif;?>
 
-    <!--If Logged in, Grant access to new menu options and replace login button with logut-->
-    <?php if (array_key_exists('loggedin', $_SESSION)) :?>
+		<!--If Logged in, Grant access to new menu options and replace login button with logut-->
+		<?php if (array_key_exists('loggedin', $_SESSION)) :?>
 
-        <form action="/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[2] ?>/function-modules/phplogin/Logout.php" method="POST">
-            <input type="hidden" name="user" value="<?php echo $_SESSION['username'];?>"/>
-            <input type="submit" name="logout" value="Logout"/>
-        </form>
+			<form action="/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[2] ?>/function-modules/phplogin/Logout.php" method="POST">
+				<input type="hidden" name="user" value="<?php echo $_SESSION['username'];?>"/>
+				<input type="submit" name="logout" value="Logout"/>
+			</form>
 
-	<?php endif;?>
+		<?php endif;?>
     </div>
     <!--The Login Box-->
     <div id="logform" class="modal">

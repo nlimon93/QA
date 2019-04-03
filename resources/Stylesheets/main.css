@@ -8,7 +8,7 @@ body {
 
 header {
     margin: 0;
-    position: static;
+    position: relative;
     background: grey;
     height: 5%;
     min-height: 30px;
@@ -16,11 +16,13 @@ header {
 }
 
 header div#login {
+    position: absolute;
     float: none;
     margin: 0;
     min-width: 5%;
     max-width: 10%;
-    position: right;
+    right: 0.5%;
+    top: 10%;
 }
 
 #login form {
