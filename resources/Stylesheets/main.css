@@ -2,6 +2,7 @@
 
 body {
     margin: 0;
+    height: 100%;
 }
 
 header {
@@ -26,6 +27,8 @@ header div#login {
     width: 100px;
     height: 100%;
 }
+
+.rased {}
 
 #login button {
     margin: 0%;

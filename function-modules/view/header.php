@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,27 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="resources/Stylesheets/main.css">
-	<link rel="stylesheet" href="resources/Stylesheets/login.css">
-	<script src="resources/javascript/main.js" type="text/javascript" async="true"></script>
+	<link rel="stylesheet" href="/qna/resources/Stylesheets/main.css">
+	<link rel="stylesheet" href="/qna/resources/Stylesheets/login.css">
+	<link rel="stylesheet" href="local.css">
+	<script src="/qna/resources/javascript/main.js" type="text/javascript" async="true"></script>
 	<!--script src="https://www.google.com/recaptcha/api.js" async defer></script-->
 </head>
 <body>
 <header>
 	<!--Generate Login Bar based on login status, Check Viewport size and apply necisary adjustments-->
 	<div id="login">
-    <?php if (true) : ?>
+    <?php if (array_key_exists('loggedin', $_SESSION) == false) : ?>
 
-		<button onclick="document.getElementById('logform').style.display='block'">Login</button>
+		<button onclick="document.getElementById('logform').style.display='block'" class="raised">Login</button>
 
 	<?php endif;?>
 
     <!--If Logged in, Grant access to new menu options and replace login button with logut-->
-    <?php if (false) :?>
-
+    <?php if (array_key_exists('loggedin', $_SESSION)) :?>
 
         <form action="/function-modules/phplogin/Logout.php" method="POST">
-            <input type="hidden" name="user" value="<?php #this user;?>"/>
+            <input type="hidden" name="user" value="<?php echo $_SESSION['username'];?>"/>
             <input type="submit" name="logout" value="Logout"/>
         </form>
 

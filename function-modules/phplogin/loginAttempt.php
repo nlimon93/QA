@@ -70,7 +70,7 @@
                         $_SESSION['name'] = $_POST['uname'];
                         $_SESSION['id'] = $id;
                         echo 'Login Successful';
-                        header('/index.php');
+                        header("Location: ../../roomConfiguration/index.php");
                     }
                     else if ($_POST['psw'] == $password) {
                         #Remove when encryption enabled
@@ -79,7 +79,7 @@
                         $_SESSION['name'] = $_POST['uname'];
                         $_SESSION['id'] = $id;
                         echo 'Login Successful';
-                        header('/index.php');
+                        header("Location: ../../roomConfiguration/index.php");
                     }
                     else{
                         echo 'Incorrect Login Information ID:PASSWORD(REMOVE ID BIT ON RELEASE)';
