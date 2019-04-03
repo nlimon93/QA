@@ -2,7 +2,7 @@
 <main>
 	<div class="sections">
 		<div class="Quiz">
-			<button id="Q" onclick="window.location.href = '/qna/function-modules/roomConfiguration'">Q</button>
+			<button id="Q" onclick="window.location.href = '/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[0] ?>/function-modules/roomConfiguration'">Q</button>
 		</div>
 		<div class="Answer">
 			<button id="A" onclick="">A</button>

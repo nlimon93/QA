@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="/qna/resources/Stylesheets/main.css">
-	<link rel="stylesheet" href="/qna/resources/Stylesheets/login.css">
+	<link rel="stylesheet" href="/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[2] ?>/resources/Stylesheets/main.css">
+	<link rel="stylesheet" href="/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[2] ?>/resources/Stylesheets/login.css">
 	<link rel="stylesheet" href="local.css">
-	<script src="/qna/resources/javascript/main.js" type="text/javascript" async="true"></script>
+	<script src="resources/javascript/main.js" type="text/javascript" async="true"></script>
 	<!--script src="https://www.google.com/recaptcha/api.js" async defer></script-->
 </head>
 <body>
@@ -25,7 +25,7 @@
     <!--If Logged in, Grant access to new menu options and replace login button with logut-->
     <?php if (array_key_exists('loggedin', $_SESSION)) :?>
 
-        <form action="/function-modules/phplogin/Logout.php" method="POST">
+        <form action="/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[2] ?>/function-modules/phplogin/Logout.php" method="POST">
             <input type="hidden" name="user" value="<?php echo $_SESSION['username'];?>"/>
             <input type="submit" name="logout" value="Logout"/>
         </form>
@@ -35,7 +35,7 @@
     <!--The Login Box-->
     <div id="logform" class="modal">
 		<span onclick="document.getElementById('logform').style.display='none'" class="close Mspan" title="Close Modal">&times;</span>
-		<form class="modal-content Mform animate" action="/qna/function-modules/phplogin/loginAttempt.php" method="post">
+		<form class="modal-content Mform animate" action="/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[2] ?>/function-modules/phplogin/loginAttempt.php" method="post">
 			<div class="container">
 				<input type="hidden" id="regswitch" name="register" value="false">
 				<label for="email" class="register" style="display:none">Email</label>
