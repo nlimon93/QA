@@ -4,7 +4,7 @@
 	<img src='/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[0] ?>/resources/graphics/QA_Logo_2.0.jpg' width='100' height="100" alt="logo" class='image'>
 	</div>
 
-	<div class="sections">
+	<div class="sections" style="display:none;">
 		<div class="Quiz">
 			<button id="Q" onclick="window.location.href = '/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[0] ?>/function-modules/roomConfiguration'">Q</button>
 		</div>
