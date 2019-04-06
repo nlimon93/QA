@@ -1,19 +1,20 @@
-<?php include 'function-modules/view/header.php';?>
+<?php include 'view/header.php';?>
 <main>
 	<div style="text-align: right;">
 	<img src='/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[0] ?>/resources/graphics/QA_Logo_2.0.jpg' width='100' height="100" alt="logo" class='image'>
 	</div>
 
-	<div class="sections" style="display:none;">
+	<div class="sections" style="display:block;">
 		<div class="Quiz">
-			<button id="Q" onclick="window.location.href = '/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[0] ?>/function-modules/roomConfiguration'">Q</button>
+			<button id="Q" onclick="window.location.href = '/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[0] ?>/RoomSetup'">Q</button>
 		</div>
 		<div class="Answer">
 			<button id="A" onclick="">A</button>
 		</div>
 	</div>
 
-	<div class="container2">
+	<div id="aboutmenu" class="container2">
+		<span onclick="document.getElementById('aboutmenu').style.display='none'" class="close Mspan" title="Close Modal"></span>
 		<div class="box1">
 			<div class="picture">
 			<img src="/<?php $ex = explode(DIRECTORY_SEPARATOR ,__DIR__); $rev = array_reverse($ex); echo $rev[0] ?>/resources/graphics/attendance.png" width="100" height="100">
@@ -52,4 +53,4 @@
 
 	</div>
 </main>
-<?php include 'function-modules/view/footer.php';?>
+<?php include 'view/footer.php';?>
