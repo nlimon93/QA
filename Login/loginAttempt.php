@@ -5,7 +5,7 @@
     $MYSQLi = new mysqli(HOST,USER,PASSWORD,DATABASE);
 
     if ($MYSQLi->connect_errno) {
-        printf("Connection Failed: $s\n", $MYSQLi->connect_error);
+        printf("Connection Failed: \n", $MYSQLi->connect_error);
         die('Failed To Connect, Terminating Script');
     }
 

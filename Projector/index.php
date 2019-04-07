@@ -1,5 +1,5 @@
 <?php include '../view/header.php';?>
-<!--This is where successful login attempts are sent, This is the configuration hub for new "Questions" and rooms owned by the user-->
+<!--This is the page where question sets are sent, and the publish option imediatly brings the page to with the QSets ready to go-->
 <main>
 </main>
 <?php include '../view/footer.php';?>
