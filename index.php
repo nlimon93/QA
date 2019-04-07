@@ -52,5 +52,8 @@
 		</div>
 
 	</div>
+	<div>
+		<?php include 'Attendance/logAttendance.php';?>
+	</div>
 </main>
 <?php include 'view/footer.php';?>
