@@ -8,22 +8,20 @@
             <div id="HeaderBox" class="lheader">
                 <!--TODO check user for login status-->
                 <div id="NewFolder">
-                    <button>NEW FOLDER ICON</button>
+                    <button type="button" onclick="newFolder()">NEW FOLDER ICON</button>
                 </div>
             </div>
             <!--Pull Folders From User-->
             <?php 
                 $folders = getFolders($_SESSION['id']);
-                $fnames = $folders[0];
-                $fdescript = $folders[1];
-            ?>
-            <?php foreach($fnames as $index=>$fname) :?>
-                <div class="folderIter">
-                    <h1><?php echo $fname?></h1>
-                    <p><?php echo $fdescript[$index]?></p>
-                    <button>TRASHICON</button>
-                </div>
-            <?php endforeach;?>
+                if (sizeof($folders) > 0) :
+                    foreach($folders as $i=>$index) :?>
+                        <div class="folderIter dragable">
+                            <h1 ondblclick="convertToForm(this)" class="renameable"><?php echo $index['folderName'].' '.($i+1);?></h1>
+                            <p ondblclick="convertToForm(this)" class="renamable"><?php echo $index['folderDescription'];?></p>
+                            <button type="button" onclick="deleteFolder(<?php echo $i?>)">TRASHICON</button>
+                        </div>
+            <?php endforeach; endif;?>
         </div>
     </div>
     <div id="QuestionColumn" class="column center">

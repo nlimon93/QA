@@ -28,6 +28,12 @@ main {
     height: 100%;
 }
 
+.folderIter {
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
 .left,
 .right {
     width: 25%;

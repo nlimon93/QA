@@ -1,68 +1,157 @@
-<?php
-    
+<?php    
     include_once 'database.php';
     #functions to pull the crap
 
+    //Initializes connection to database
     $MYSQLi = new mysqli(HOST,USER,PASSWORD,DATABASE);
     if ($MYSQLi->connect_errno) {
         printf("Connection Failed: \n", $MYSQLi->connect_error);
         die('Failed To Connect, Terminating Script');
     }
-
+    //Returns rows from SQL about the folders
     function getFolders($user) {
         global $MYSQLi;
         if ($statement = $MYSQLi->prepare('SELECT folderName, folderDescription FROM questionfolders WHERE ownerID = ?')) {
             $statement->bind_param('s', $user);
             $statement->execute();
-            $statement->use_result();
-            $return = $statement->fetch_all();
-
-            return $return;
+            $return = $statement->get_result();
+            $statement->close();
+            return $return->fetch_all(MYSQLI_ASSOC);;
         }
         else {
             //Throw Error
         }
-
     }
-
+    //Updates a folder's data
+    function updateFolder($user, $folderID, $folderName, $folderDescr) {
+        global $MYSQLi;
+        if ($statement = $MYSQLi->prepare('UPDATE questionfolders SET folderName=? folderDescription=? WHERE ownerID = ? AND folderID = ? VALUES (fold)') ) {
+            $statement->bind_param('ssss', $folderName, $folderDescr, $user, $folderID);
+            $statement->execute();
+            $statement->close();
+        }
+        else {
+            //Throw Error
+        }
+    }
+    //SQL to make a folder using the data provided from JS
     function makeFolder($user, $folderName, $folderDescr) {
         global $MYSQLi;
-
+        if ($statement = $MYSQLi->prepare('INSERT into questionfolders (user, folderName, folderDescr) VALUES (?, ? , ?)')) {
+            $statement->bind_param('sss', $user, $folderName, $folderDescr);
+            $statement->execute();
+            $statement->close();
+        }
+        else {
+            //Throw Error
+        }
     }
-
+    //Returns a list of Questions provided folder,
     function getQuestions($folder) {
         global $MYSQLi;
-
+        if (true) {
+        }
+        else {
+            //Throw Error
+        }
     }
-
+    //Returns Single Question Data
     function getQuestion($folder, $questionID) {
         global $MYSQLi;
-
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
     }
-
-    function setQuestion($folder, $question, $arguments, $answerArray) {
+    //Updates a Question
+    function updateQuestion($folder, $question, $arguments, $questionID) {
         global $MYSQLi;
-
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
     }
-
+    //Makes a Question's Data.
+    function makeQuestion($folder, $question, $arguments) {
+        global $MYSQLi;
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
+    }
+    //Gets answeres associated with question
+    function getAnswers($question) {
+        global $MYSQLi;
+        if (true) {
+        }
+        else {
+            //Throw Error
+        }
+    }
+    //Gets Single Answer Associated With Question
+    function getAnswer($question) {
+        global $MYSQLi;
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
+    }
+    //Updates Answer associated with question
+    function updateAnswer($question, $answer) {
+        global $MYSQLi;
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
+    }
+    //Adds answer too question
+    function makeAnswer($question) {
+        global $MYSQLi;
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
+    }
+    //Gets the list of Question Sets
     function getQSets($folder) {
         global $MYSQLi;
-
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
     }
-
+    //Gets a Single Set
     function getQset($folder, $setID) {
         global $MYSQLi;
-
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
     }
-    
+    //Sets.. a question..set?
     function makeSet($folder, $setName) {
         global $MYSQLi;
-
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
     }
-
-    function addToSet($folder, $setID, $setName, $questionID) {
+    //Adds a Question to the set, should be run quite often.. need a way to diferentiate between sets for questions in multiple sets
+    function updateSet($folder, $setID, $setName, $questionID) {
         global $MYSQLi;
-
+        if (false) {
+        }
+        else {
+            //Throw Error
+        }
     }
-
 ?>
