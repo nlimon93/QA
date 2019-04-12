@@ -75,14 +75,17 @@ function convertToForm(select, position) {
 
 //Updates parent elements from input data, updates the sql to reflect new form data. carries on.
 function updateElementFromForm(target, origin, clickoff) {
-    if ((!event.shiftkey & event.keyCode == 17) || clickoff) {
+    if ((!event.shiftkey & event.keyCode == 13) || clickoff) {
         console.log("Test updateElementFromForm" + ' ' + storage.nodeStorage);
         target = origin.previousSibling;
         //Replace content from input to dom
-        origin.previousSibling.innerHTML = origin.getAttribute('value');
-        console.log("Target Value :" + origin.previousSibling.innerHTML + " Value to be inserted : " + origin.innerHTML);
+        origin.previousSibling.innerHTML = origin.value;
+        console.log("Target Value :" + origin.previousSibling.innerHTML + " Value to be inserted : " + origin.value);
         //Send to server
-
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "pushfolders.php", true);
+        xmlhttp.setRequestHeader("DUNNOWHATTOPUTHEREYET", origin.value);
+        xmlhttp.send();
         //remove form and reenable node
         target.setAttribute("style", "display:block");
         origin.parentNode.removeChild(origin);
