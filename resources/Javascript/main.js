@@ -40,19 +40,22 @@ function updateClock() {
     time += 1;
 }
 //----------------------------------//
-
 ////////////////////////////
 // Object Definition Zone //
 ////////////////////////////
-const question = {
-    text: "This is a sample Question, Double Click to Change",
-    args: ["TrueFalse"],
-    answer: {
-        1: ["true", "This is a sample Answer, Double click to change"],
-        2: ["true", "this is a sample Answer, Double click to change"],
-        3: ["false", "this is a sample Answer, Double click to change"],
-        4: ["false", "this is a sample Answer, Double click to change"],
-        5: ["false", "this is a sample Answer, Double click to change"]
+class question {
+    constructor() {
+        this.text = "This is a sample Question, Double Click to Change",
+            this.args = {
+                TF: "False"
+            },
+            this.answer = {
+                one: ["true", "This is a sample Answer, Double click to change"],
+                two: ["true", "this is a sample Answer, Double click to change"],
+                three: ["false", "this is a sample Answer, Double click to change"],
+                four: ["false", "this is a sample Answer, Double click to change"],
+                five: ["false", "this is a sample Answer, Double click to change"]
+            };
     }
 }
 
@@ -216,9 +219,47 @@ async function queryQuestionList(folder, user) {
     }
 }
 async function newQuestion() {
+    //Define Element Components
     const QBox = document.getElementById("QuestionBox");
     const newQbtn = document.getElementById("newQbtn");
     const Qbtn = document.createElement("div");
+    //const QbtnHead = document.createElement("div");
+    //const QbtnHeadText = document.createElement("div");
+    //const QbtnHeadArr = document.createElement("button");
+    //const QbtnBBox = document.createElement("div");
+    //const QbtnBBoxTF = document.createElement("button");
+    //const QbtnBBoxTrash = document.createElement("button");
+    const Q = new question();
+    //Make Entry into database
+
+    //Actually do something sensable so i don't go insane
+    Qbtn.innerHTML = "<div class='question'><div class='QHead'><div class='text'>" + Q.text + "</div><div class='arrow'>Arrow</div></div>"
+    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.one + "</div>"
+    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.two + "</div>"
+    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.three + "</div>"
+    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.four + "</div>"
+    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.five + "</div>"
+    Qbtn.innerHTML += "</div>"
+
+
+    //Configure Elements
+    /* i'm an idiot i could do this much easier with innerhtml
+    Qbtn.classList = "question";
+    //Element Header Text
+    QbtnHead.classList = "QHead";
+    QbtnHeadText.innerText = Q.text;
+    QbtnHeadArr.innerText = "Arrow";
+    //
+    const QAns1 = document.createElement("div");
+    QAns1.innerText = Q.answer.one;
+    //QAns1.setAttribute("onclick", "convertToFormQ()")
+    //
+    QbtnBBox.classList = "BbtnHoldert";
+    //
+    QbtnBBoxTF.innerText = "TrueFalse";
+    QbtnBBoxTrash = "Trash";
+    */
+    //Build Element
 
 }
 
