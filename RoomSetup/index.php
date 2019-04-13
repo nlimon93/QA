@@ -4,11 +4,11 @@
 <main>
 <div class="row">
     <div id="FolderColumn" class="column left">
-        <div id="FolderBox" class="box">
+        <div id="FolderBox" class="box" style="overflow-y: scroll">
             <div id="HeaderBox" class="lheader">
                 <!--TODO check user for login status-->
                 <div id="NewFolder">
-                    <button type="button" onclick="newFolder()">NEW FOLDER ICON</button>
+                    <button type="button" onclick="newFolder(<?php echo $_SESSION['id'] ?>)">NEW FOLDER ICON</button>
                 </div>
             </div>
             <!--Pull Folders From User-->
@@ -17,9 +17,9 @@
                 if (sizeof($folders) > 0) :
                     foreach($folders as $i=>$index) :?>
                         <div class="folderIter dragable">
-                            <h1 ondblclick="convertToForm(this)" class="renameable"><?php echo $index['folderName'].' '.($i+1);?></h1>
-                            <p ondblclick="convertToForm(this)" class="renamable"><?php echo $index['folderDescription'];?></p>
-                            <button type="button" onclick="deleteFolder(<?php echo $i?>)">TRASHICON</button>
+                            <h1 ondblclick="convertToForm(this, 'folderN', '<?php echo $index['folderDescription']?>', '<?php echo $_SESSION['id']?>', '<?php echo $index['folderID']; ?>')" class="renameable"><?php echo $index['folderName'];?></h1>
+                            <p ondblclick="convertToForm(this, 'folderD', '<?php echo $index['folderName']?>', '<?php echo $_SESSION['id']?>', '<?php echo $index['folderID']; ?>')" class="renamable"><?php echo $index['folderDescription'];?></p>
+                            <button type="button" onclick="deleteFolder(this, <?php echo $index['folderID']; ?>, <?php echo $_SESSION['id']?>)">TRASHICON</button>
                         </div>
             <?php endforeach; endif;?>
         </div>

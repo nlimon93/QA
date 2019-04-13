@@ -7,8 +7,8 @@
 // Important Variables //
 /////////////////////////
 
-var modal = document.getElementById('id01');
-var storage = { nodeStorage: [] };
+const modal = document.getElementById('id01');
+
 
 //----------------------------------//
 
@@ -60,32 +60,56 @@ window.onclick = function(event) {
 }
 
 //Converts a Text line to a form
-function convertToForm(select, position) {
-    console.log("test convert to form")
+function convertToForm(select, type, secondary, userID, folderID) {
     select.setAttribute("style", "display:none")
-    var input = document.createElement("input");
+    const input = document.createElement("input");
     input.setAttribute("value", select.innerHTML);
     input.setAttribute("autofocus", true);
-    input.setAttribute("name", position);
-    var index = storage.nodeStorage.push(select) - 1;
-    input.setAttribute("onkeyup", "updateElementFromForm(" + index + ", this, false)")
-    input.setAttribute("onfocusout", "updateElementFromForm(" + index + ", this, true)")
+    input.setAttribute("onkeyup", "updateFolderFromForm(this, '" + type + "', '" + secondary + "', " + userID + ", " + folderID + ", false)")
+    input.setAttribute("onfocusout", "updateFolderFromForm(this, '" + type + "', '" + secondary + "', " + userID + "," + folderID + ", true)")
     select.parentNode.insertBefore(input, select.nextSibling)
 }
 
 //Updates parent elements from input data, updates the sql to reflect new form data. carries on.
-function updateElementFromForm(target, origin, clickoff) {
+async function updateFolderFromForm(origin, type, secondary, userID, folderID, clickoff) {
     if ((!event.shiftkey & event.keyCode == 13) || clickoff) {
-        console.log("Test updateElementFromForm" + ' ' + storage.nodeStorage);
         target = origin.previousSibling;
         //Replace content from input to dom
         origin.previousSibling.innerHTML = origin.value;
-        console.log("Target Value :" + origin.previousSibling.innerHTML + " Value to be inserted : " + origin.value);
+
         //Send to server
+        let data = new FormData();
+        data.append("folder", "true");
+        data.append(type, origin.value);
+        data.append("alternative", secondary);
+        data.append("user", userID);
+        data.append("folderID", folderID);
+        // Fetch implementation
+        const response = await fetch("pushRoomSetup.php", {
+            method: 'POST',
+            body: data
+        });
+        if (!response.ok) {
+            console.log("something went wrong");
+        } else {
+            let result = await response.text();
+            console.log(result);
+        }
+
+        /* xmlhttprequest implementation
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "pushfolders.php", true);
-        xmlhttp.setRequestHeader("DUNNOWHATTOPUTHEREYET", origin.value);
-        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("response given")
+                console.log(this.getResponseHeader)
+            }
+        }
+
+        xmlhttp.open("POST", "pushRoomSetup.php", true);
+        xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+        xmlhttp.send(data);
+        */
+
         //remove form and reenable node
         target.setAttribute("style", "display:block");
         origin.parentNode.removeChild(origin);
@@ -95,13 +119,76 @@ function updateElementFromForm(target, origin, clickoff) {
 }
 
 //Deletes Folder, Remove element and ping server's php to remove from memory
-function deleteFolder(target) {
-
+async function deleteFolder(target, folderid, user) {
+    const node = target.parentNode
+    let data = new FormData();
+    data.append("folder", true);
+    data.append("delFold", folderid);
+    data.append("user", user);
+    const response = await fetch("pushRoomSetup.php", {
+        method: 'POST',
+        body: data
+    });
+    if (!response.ok) {
+        console.log("something went wrong in delete folder");
+    } else {
+        //Finally delete the node
+        let result = await response.text()
+        console.log(result);
+        node.parentNode.removeChild(node);
+    }
 }
 
 //Creates Folder, Pings PHP to create the default, initialaizes form, runs updateElementFromForm when values are entered and converts to normal
-function newFolder() {
+async function newFolder(user) {
+    const folderbox = document.getElementById("FolderBox");
+    const tempFolName = "Folder Name";
+    const tempFolDesc = "Double Click to edit Folder Name or Folder Description";
+    //Tell Server to make a new DB entry with user
+    let data = new FormData();
+    data.append("folder", "true");
+    data.append("newFold", user);
+    data.append("fname", tempFolName);
+    data.append("fdesc", tempFolDesc);
+    const response = await fetch("pushRoomSetup.php", {
+        method: 'POST',
+        body: data
+    });
+    if (!response.ok) {
+        console.log("something went wrong");
+    } else {
+        let result = await response.text();
+        console.log(result);
 
+        //the PHP returns the ID of the folder
+        const folderID = result;
+        //Make the Div using the ID
+        const node = document.createElement("div");
+        const h1 = document.createElement("h1");
+        const p = document.createElement("p");
+        const btn = document.createElement("button");
+
+        //configure node
+        node.setAttribute("class", "folderIter dragable")
+            //configure h1
+        h1.setAttribute("ondblclick", "convertToForm(this, 'folderN', '" + tempFolDesc + "', " + user + ", " + folderID + ")");
+        h1.setAttribute("class", "renamable")
+        h1.innerText = tempFolName;
+        //configure p
+        p.setAttribute("ondblclick", "convertToForm(this, 'folderD', '" + tempFolName + "', " + user + ", " + folderID + ")");
+        p.setAttribute("class", "renamable")
+        p.innerText = tempFolDesc;
+
+        //configure btn
+        btn.setAttribute("type", "button");
+        btn.setAttribute("onclick", "deleteFolder(this, " + folderID + ", " + user + ")")
+        btn.innerText = "TRASHICON";
+        //assemble node
+        folderbox.appendChild(node);
+        node.appendChild(h1);
+        node.appendChild(p);
+        node.appendChild(btn);
+    }
 }
 
 //Swaps the login form to enable Registration
