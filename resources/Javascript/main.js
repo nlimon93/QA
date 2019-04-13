@@ -44,7 +44,17 @@ function updateClock() {
 ////////////////////////////
 // Object Definition Zone //
 ////////////////////////////
-
+const question = {
+    text: "This is a sample Question, Double Click to Change",
+    args: ["TrueFalse"],
+    answer: {
+        1: ["true", "This is a sample Answer, Double click to change"],
+        2: ["true", "this is a sample Answer, Double click to change"],
+        3: ["false", "this is a sample Answer, Double click to change"],
+        4: ["false", "this is a sample Answer, Double click to change"],
+        5: ["false", "this is a sample Answer, Double click to change"]
+    }
+}
 
 //----------------------------------//
 
@@ -95,21 +105,6 @@ async function updateFolderFromForm(origin, type, secondary, userID, folderID, c
             let result = await response.text();
             console.log(result);
         }
-
-        /* xmlhttprequest implementation
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log("response given")
-                console.log(this.getResponseHeader)
-            }
-        }
-
-        xmlhttp.open("POST", "pushRoomSetup.php", true);
-        xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-        xmlhttp.send(data);
-        */
-
         //remove form and reenable node
         target.setAttribute("style", "display:block");
         origin.parentNode.removeChild(origin);
@@ -170,6 +165,7 @@ async function newFolder(user) {
 
         //configure node
         node.setAttribute("class", "folderIter dragable")
+        node.setAttribute("onclick", "queryQuestionList(" + folderID + ", " + user + ")")
             //configure h1
         h1.setAttribute("ondblclick", "convertToForm(this, 'folderN', '" + tempFolDesc + "', " + user + ", " + folderID + ")");
         h1.setAttribute("class", "renamable")
@@ -190,6 +186,42 @@ async function newFolder(user) {
         node.appendChild(btn);
     }
 }
+
+async function queryQuestionList(folder, user) {
+    const QBox = document.getElementById("QuestionBox");
+    let data = new FormData();
+    data.append("question", folder)
+    data.append("type", "query")
+    data.append("user", user)
+    const response = await fetch("pushRoomSetup.php", {
+        method: 'POST',
+        body: data
+    });
+    if (!response.ok) {
+        console.log("something went wrong");
+    } else {
+        const questionList = await response.text();
+        //Itterate through the list
+        for (let i = 0; i < questionList.length; i++) {
+
+        }
+        //Create New question button
+        console.log("Make New Button");
+        const newQbtn = document.createElement("div");
+        newQbtn.setAttribute("onclick", "newQuestion(" + folder + ", " + user + ")");
+        newQbtn.setAttribute("id", "newQbtn");
+        newQbtn.innerText = "Create New Question";
+        QBox.appendChild(newQbtn);
+
+    }
+}
+async function newQuestion() {
+    const QBox = document.getElementById("QuestionBox");
+    const newQbtn = document.getElementById("newQbtn");
+    const Qbtn = document.createElement("div");
+
+}
+
 
 //Swaps the login form to enable Registration
 function adjustFormToRegister() {

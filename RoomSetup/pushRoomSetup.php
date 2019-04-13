@@ -1,5 +1,6 @@
 <?php
     include '../model/question_db.php';
+    include '../model/classes.php';
 
     if($func = filter_input(INPUT_POST, "folder")){
         if ($type = filter_input(INPUT_POST, "folderN")) {

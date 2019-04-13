@@ -1,5 +1,6 @@
 <?php    
     include_once 'database.php';
+    include 'classes.php';
     #functions to pull the crap
 
     //Initializes connection to database

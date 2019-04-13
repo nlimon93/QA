@@ -61,3 +61,57 @@ main {
     min-height: 100px;
     height: 95%;
 }
+
+#newQbtn {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+    background: cyan;
+    min-height: 100px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+.question {
+    background: cyan;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+.Qhead:after {
+    box-sizing: border-box;
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.text {
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+    width: 94%;
+}
+
+.arrow {
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100px;
+    width: 5%;
+}
+
+.answer {
+    border-style: solid;
+    border-width: 4px;
+    border-color: black;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+}
+
+.question button {
+    align-content: right;
+}
