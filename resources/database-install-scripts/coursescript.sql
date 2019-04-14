@@ -4,14 +4,14 @@
 Create Table if not exists Rooms (
     room_key varchar(5) NOT NULL,
     LoginGroup int NOT NULL,
-    active_connections int DEFAULT = 0,
+    active_connections int DEFAULT 0,
     Primary Key (room_key),
-    Foreign Key (LoginGroup) REFERENCES qaProject.Courses(course_id)
+    Foreign Key (LoginGroup) REFERENCES qaproject.Courses(course_id)
 );
 
 /* Trigger which sets the Key value for newly created room */
 DELIMITER ^^
-CREATE TRIGGER IF NOT EXISTS qaProject.room_key_generator_bi
+CREATE TRIGGER IF NOT EXISTS qaproject.room_key_generator_bi
 BEFORE INSERT ON Rooms FOR EACH ROW 
 BEGIN
 	declare rnd_str varchar(5);
@@ -45,27 +45,30 @@ CREATE TABLE IF NOT EXISTS RoomConnections (
 *    (session_id, id, room_key) Value (?, ?, ?)" All other fields
 *    will auto-fill.
 */
-Create TRIGGER IF NOT EXISTS qaProject.room_connect_bi
-BEFORE INSERT ON qaProject.RoomConnections
-{
+DELIMITER ^^;
+Create TRIGGER IF NOT EXISTS qaproject.room_connect_bi
+BEFORE INSERT ON qaproject.RoomConnections
+BEGIN
 
     set New.connectTime = NOW();
     -- Increment the active connections on room connection
     update Rooms 
         set active_connections = active_connections +1
         where room_key = new.room_key;
-}
+END^^
 
 /* To leave a room, call an update on the current roomConnection
 *  with endTime set to now()
 */
-Create TRIGGER IF NOT EXISTS qaProject.room_connect_bu
-BEFORE UPDATE ON qaProject.RoomConnections
-{
+Create TRIGGER IF NOT EXISTS qaproject.room_connect_bu
+BEFORE UPDATE ON qaproject.RoomConnections
+BEGIN
     if (NEW.exitTime != NULL) THEN
         -- Increment the active connections on room connection
         update Rooms 
             set active_connections = active_connections - 1
             where room_key = new.room_key;
     end if;
-}
+END ^^
+
+DELIMITER ;
