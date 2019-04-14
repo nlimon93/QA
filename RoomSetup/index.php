@@ -28,7 +28,7 @@
         <div id="QuestionBox" style="overflow-y: scroll" class="box">
             <!--Question List Generator-->
             <!--Handled by pure JS-->
-            <div id="TestQuestion" class="question">
+            <!--div id="TestQuestion" class="question">
                 <div class="QHead">
                     <div class="text">Question Text</div>
                     <div class="arrow">Arrow</div>
@@ -42,16 +42,18 @@
                     <button>TrueFalse</button>
                     <button>Trash</button>
                 </div>
-            </div>
+            </div-->
         </div>
     </div>
     <div id="QuestionSetColumn" class="column right">
         <div id="QuestionSetBox" class="box">
             <div id="QuestionSetHeader" class="lheader">
                 <div id="NewSet">
-                    <button>New Set Icon</button>
+                    <button type="button" onclick="newSet()">New Set Icon</button>
                 </div>
-                
+                <div id="TestSet" class="setIter">
+                    
+                </div>
             </div>
             <!--Pull Set List from database-->
             <?php  ?>

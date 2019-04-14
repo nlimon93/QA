@@ -115,3 +115,7 @@ main {
 .question button {
     align-content: right;
 }
+
+.hidden {
+    display: none;
+}

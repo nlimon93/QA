@@ -43,7 +43,7 @@ function updateClock() {
 ////////////////////////////
 // Object Definition Zone //
 ////////////////////////////
-class question {
+class questionObj {
     constructor() {
         this.text = "This is a sample Question, Double Click to Change",
             this.args = {
@@ -51,10 +51,10 @@ class question {
             },
             this.answer = {
                 one: ["true", "This is a sample Answer, Double click to change"],
-                two: ["true", "this is a sample Answer, Double click to change"],
-                three: ["false", "this is a sample Answer, Double click to change"],
-                four: ["false", "this is a sample Answer, Double click to change"],
-                five: ["false", "this is a sample Answer, Double click to change"]
+                two: ["true", "This is a sample Answer, Double click to change"],
+                three: ["false", "This is a sample Answer, Double click to change"],
+                four: ["false", "This is a sample Answer, Double click to change"],
+                five: ["false", "This is a sample Answer, Double click to change"]
             };
     }
 }
@@ -75,7 +75,11 @@ window.onclick = function(event) {
 //Converts a Text line to a form
 function convertToForm(select, type, secondary, userID, folderID) {
     select.setAttribute("style", "display:none")
-    const input = document.createElement("input");
+    if (type == "folderN") {
+        const input = document.createElement("input");
+    } else {
+        const input = document.createElement("textarea");
+    }
     input.setAttribute("value", select.innerHTML);
     input.setAttribute("autofocus", true);
     input.setAttribute("onkeyup", "updateFolderFromForm(this, '" + type + "', '" + secondary + "', " + userID + ", " + folderID + ", false)")
@@ -192,9 +196,11 @@ async function newFolder(user) {
 
 async function queryQuestionList(folder, user) {
     const QBox = document.getElementById("QuestionBox");
+    //Clear Box and Regenerate
+    QBox.innerHTML = "";
     let data = new FormData();
     data.append("question", folder)
-    data.append("type", "query")
+    data.append("query", "true")
     data.append("user", user)
     const response = await fetch("pushRoomSetup.php", {
         method: 'POST',
@@ -203,10 +209,25 @@ async function queryQuestionList(folder, user) {
     if (!response.ok) {
         console.log("something went wrong");
     } else {
-        const questionList = await response.text();
+        let qList = await response.json();
         //Itterate through the list
-        for (let i = 0; i < questionList.length; i++) {
+        console.log(qList[0].questionID)
 
+        for (let i = 0; i < qList.length; i++) {
+            let Q = JSON.parse(qList[i].question);
+            let qid = qList[i].questionID;
+            //Build Element
+            const Qbtn = document.createElement("div");
+            Qbtn.classList = "question";
+            Qbtn.setAttribute("id", "Q:" + qid);
+            Qbtn.innerHTML = "<div class='QHead'><div class='text'>" + Q.text + "</div><div class='arrow'>Arrow</div></div>"
+            Qbtn.innerHTML += "<div id='" + qid + ":" + 1 + "' class='answer'>" + Q.answer.one[1] + "</div>"
+            Qbtn.innerHTML += "<div id='" + qid + ":" + 2 + "' class='answer'>" + Q.answer.two[1] + "</div>"
+            Qbtn.innerHTML += "<div id='" + qid + ":" + 3 + "' class='answer hidden'>" + Q.answer.three[1] + "</div>"
+            Qbtn.innerHTML += "<div id='" + qid + ":" + 4 + "' class='answer hidden'>" + Q.answer.four[1] + "</div>"
+            Qbtn.innerHTML += "<div id='" + qid + ":" + 5 + "' class='answer hidden'>" + Q.answer.five[1] + "</div>"
+            Qbtn.innerHTML += "<div class='btnHolder'><button>Add Answer Choice</button><button>TrueFalse</button><button>Trash</button></div>"
+            QBox.appendChild(Qbtn);
         }
         //Create New question button
         console.log("Make New Button");
@@ -218,49 +239,43 @@ async function queryQuestionList(folder, user) {
 
     }
 }
-async function newQuestion() {
+async function newQuestion(folder, user) {
     //Define Element Components
     const QBox = document.getElementById("QuestionBox");
     const newQbtn = document.getElementById("newQbtn");
     const Qbtn = document.createElement("div");
-    //const QbtnHead = document.createElement("div");
-    //const QbtnHeadText = document.createElement("div");
-    //const QbtnHeadArr = document.createElement("button");
-    //const QbtnBBox = document.createElement("div");
-    //const QbtnBBoxTF = document.createElement("button");
-    //const QbtnBBoxTrash = document.createElement("button");
-    const Q = new question();
+    const Q = new questionObj();
     //Make Entry into database
+    const data = new FormData();
+    data.append("question", true);
+    data.append("newQ", true)
+    data.append("location", folder);
+    data.append("user", user);
+    data.append("data", JSON.stringify(Q));
+    const response = await fetch("pushRoomSetup.php", {
+        method: 'POST',
+        body: data
+    });
+    if (!response.ok) {
+        console.log("something went wrong");
+    } else {
+        const result = await response.text();
+        let qid = result;
+        console.log(result);
+        //Basic Structure of the Question Object
+        Qbtn.classList = "question";
+        Qbtn.setAttribute("id", "Q:" + qid);
+        Qbtn.innerHTML = "<div class='QHead'><div class='text'>" + Q.text + "</div><div class='arrow'>Arrow</div></div>"
+        Qbtn.innerHTML += "<div id='" + qid + ":" + 1 + "' class='answer'>" + Q.answer.one[1] + "</div>"
+        Qbtn.innerHTML += "<div id='" + qid + ":" + 2 + "' class='answer'>" + Q.answer.two[1] + "</div>"
+        Qbtn.innerHTML += "<div id='" + qid + ":" + 3 + "' class='answer hidden'>" + Q.answer.three[1] + "</div>"
+        Qbtn.innerHTML += "<div id='" + qid + ":" + 4 + "' class='answer hidden'>" + Q.answer.four[1] + "</div>"
+        Qbtn.innerHTML += "<div id='" + qid + ":" + 5 + "' class='answer hidden'>" + Q.answer.five[1] + "</div>"
+        Qbtn.innerHTML += "<div class='btnHolder'><button>Add Answer Choice</button><button>TrueFalse</button><button>Trash</button></div>"
 
-    //Actually do something sensable so i don't go insane
-    Qbtn.innerHTML = "<div class='question'><div class='QHead'><div class='text'>" + Q.text + "</div><div class='arrow'>Arrow</div></div>"
-    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.one + "</div>"
-    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.two + "</div>"
-    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.three + "</div>"
-    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.four + "</div>"
-    Qbtn.innerHTML += "<div class='answer'>" + Q.answer.five + "</div>"
-    Qbtn.innerHTML += "</div>"
-
-
-    //Configure Elements
-    /* i'm an idiot i could do this much easier with innerhtml
-    Qbtn.classList = "question";
-    //Element Header Text
-    QbtnHead.classList = "QHead";
-    QbtnHeadText.innerText = Q.text;
-    QbtnHeadArr.innerText = "Arrow";
-    //
-    const QAns1 = document.createElement("div");
-    QAns1.innerText = Q.answer.one;
-    //QAns1.setAttribute("onclick", "convertToFormQ()")
-    //
-    QbtnBBox.classList = "BbtnHoldert";
-    //
-    QbtnBBoxTF.innerText = "TrueFalse";
-    QbtnBBoxTrash = "Trash";
-    */
-    //Build Element
-
+        //Build Element
+        QBox.insertBefore(Qbtn, newQbtn);
+    }
 }
 
 

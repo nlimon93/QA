@@ -17,7 +17,7 @@
             $statement->execute();
             $return = $statement->get_result();
             $statement->close();
-            return $return->fetch_all(MYSQLI_ASSOC);;
+            return $return->fetch_all(MYSQLI_ASSOC);
         }
         else {
             //Throw Error
@@ -72,73 +72,62 @@
     //Returns a list of Questions provided folder,
     function getQuestions($folder) {
         global $MYSQLi;
-        if (true) {
+        if ($statement = $MYSQLi->prepare('SELECT questionID, question FROM questiontable WHERE folderID = ?')) {
+            $statement->bind_param('i', $folder);
+            $statement->execute();
+            $return = $statement->get_result();
+            $statement->close();
+            return $return->fetch_all(MYSQLI_ASSOC);
         }
         else {
             //Throw Error
+            return "An Error has occured in getQuestions";
         }
     }
     //Returns Single Question Data
     function getQuestion($folder, $questionID) {
         global $MYSQLi;
-        if (false) {
+        if ($statement = $MYSQLi->prepare('SELECT question FROM questiontable WHERE folderID = ? AND questionID = ?')) {
+            $statement->bind_param('ss', $folder, $questionID);
+            $statement->execute();
+            $return = $statement->get_result();
+            $statement->close();
+            return $return->fetch();
         }
         else {
             //Throw Error
+            return "An Error has occured in getQuestion";
         }
     }
     //Updates a Question
-    function updateQuestion($folder, $question, $arguments, $questionID) {
+    function updateQuestion($question, $folder, $questionID) {
         global $MYSQLi;
-        if (false) {
+        if ($statement = $MYSQLi->prepare('UPDATE questiontable set question = ? where questionID = ? AND folderID = ?')) {
+            $statement->bind_param('sss', $question, $questionID, $folder);
+            $statement->execute();
+            $statement->close();
         }
         else {
             //Throw Error
+            return "Update Question threw an error";
         }
     }
     //Makes a Question's Data.
-    function makeQuestion($folder, $question, $arguments) {
+    function makeQuestion($folder, $question) {
         global $MYSQLi;
-        if (false) {
+        if ($statement = $MYSQLi->prepare('INSERT into questiontable (folderID, question) VALUES (?, ?)')) {
+            $statement->bind_param('ss', $folder, $question);
+            $statement->execute();
+            $result = $statement->insert_id;
+            $statement->close();
+            if ($result == 0) {
+                $result = $user." ".$folderName." ".$folderDescr;
+            }
+            return $result;
         }
         else {
             //Throw Error
-        }
-    }
-    //Gets answeres associated with question
-    function getAnswers($question) {
-        global $MYSQLi;
-        if (true) {
-        }
-        else {
-            //Throw Error
-        }
-    }
-    //Gets Single Answer Associated With Question
-    function getAnswer($question) {
-        global $MYSQLi;
-        if (false) {
-        }
-        else {
-            //Throw Error
-        }
-    }
-    //Updates Answer associated with question
-    function updateAnswer($question, $answer) {
-        global $MYSQLi;
-        if (false) {
-        }
-        else {
-            //Throw Error
-        }
-    }
-    //Adds answer too question
-    function makeAnswer($question) {
-        global $MYSQLi;
-        if (false) {
-        }
-        else {
-            //Throw Error
+            return "Make Question Failed";
         }
     }
     //Gets the list of Question Sets
