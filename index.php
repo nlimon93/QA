@@ -9,7 +9,7 @@
 			<button id="Q" onclick="window.location.href = '/RoomSetup'">Q</button>
 		</div>
 		<div class="Answer">
-			<button id="A" onclick="">A</button>
+			<button id="A">Mark Yourself Present!<?php include './Attendance/LogAttendance.php' ?></button>
 		</div>
 	</div>
 
@@ -51,9 +51,6 @@
 			</ul>
 		</div>
 
-	</div>
-	<div>
-		<?php include 'Attendance/logAttendance.php';?>
 	</div>
 </main>
 <?php include 'view/footer.php';?>

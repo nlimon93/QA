@@ -1,4 +1,6 @@
 <?php 
+
+    $result = "";
     #TODO Cleanup the error code 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         include_once 'psl-config.php';
@@ -9,10 +11,10 @@
             $statement->bind_param('ds', $attendee_id, $course_key);
             if(!$statement->execute()) {
                 if(substr($statement->error,0,9)=='Duplicate') {
-                    printf("<h2>Successfully logged in</h2>");
+                    $result = "Successfully logged in";
                 }
-                else {
-                    printf("Failed. %s", $statement->error);
+                else if ($statement->affected_rows >0) {
+                    $result = "Successfully logged in.";
                 }
             }
             else {
@@ -28,8 +30,9 @@
         <form method="post" style="hidden" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             Account ID: <input type="number" name="attendee_id"><br>
             Course ID: <input type="text" name="course_key"><br>
-            <input type="submit">
+            <input type="submit"><br>
         </form>
+        <?php if (isset($result) && $result!== "") echo $result ?>
         <?php
     }
     
