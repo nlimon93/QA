@@ -4,7 +4,7 @@
 
 */
 
-CREATE TABLE IF NOT EXISTS qaProject.Courses(
+CREATE TABLE IF NOT EXISTS qaproject.Courses(
     course_id     int   NOT NULL AUTO_INCREMENT,
     course_name   varchar(62) NOT NULL,
     course_subject varchar(5),
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS qaProject.Courses(
 
 /* List of attendees certified for a given course. Attendees can not be saved
 *  in the AttendanceRecords unless they have a record here. */
-CREATE TABLE IF NOT EXISTS qaProject.attendees(
+CREATE TABLE IF NOT EXISTS qaproject.attendees(
     attendee_id int(7) NOT NULL,
     course_id   int NOT NULL,
     PRIMARY KEY (attendee_id, course_id),
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS qaProject.attendees(
 /* Insert using "Values (<course_id>, NULL, NULL)"
 *  session_date and attendance_key are created by
 *  trigger "date_key_generator_bi" */
-CREATE TABLE IF NOT EXISTS qaProject.AttendanceKeys(
+CREATE TABLE IF NOT EXISTS qaproject.AttendanceKeys(
     course_id int NOT NULL,
     session_date date NOT NULL,
     attendance_key varchar(5) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS qaProject.AttendanceKeys(
 
 /* Trigger which sets the Key and Date value for new AttendanceKeys */
 DELIMITER ^^
-CREATE TRIGGER IF NOT EXISTS qaProject.date_key_generator_bi
+CREATE TRIGGER IF NOT EXISTS qaproject.date_key_generator_bi
 BEFORE INSERT ON AttendanceKeys FOR EACH ROW 
 BEGIN
 	declare rnd_str varchar(5);
@@ -64,16 +64,16 @@ END^^
 DELIMITER ;
 
 # Index on attendance keys for quick lookup
-CREATE INDEX IF NOT EXISTS qaProject.idx_attendance_keys on qaProject.AttendanceKeys(attendance_key);
+CREATE INDEX IF NOT EXISTS qaproject.idx_attendance_keys on qaproject.AttendanceKeys(attendance_key);
 
 /* AttendanceRecords log each instance of an attendee being marked present for
 *  a given session of a course. Each session is indicated by attendance_key */
-CREATE TABLE IF NOT EXISTS qaProject.AttendanceRecords(
+CREATE TABLE IF NOT EXISTS qaproject.AttendanceRecords(
     attendee_id int NOT NULL,
     attendance_key varchar(8) NOT NULL,
     Constraint pk_attendancerecords PRIMARY KEY(attendee_id, attendance_key),
     Constraint fk_att_records_attendee FOREIGN KEY (attendee_id)
-        REFERENCES qaProject.attendees(attendee_id),
+        REFERENCES qaproject.attendees(attendee_id),
     CONSTRAINT fk_att_records_course_key FOREIGN KEY (attendance_key)
-        REFERENCES qaProject.AttendanceKeys (attendance_key)
+        REFERENCES qaproject.AttendanceKeys (attendance_key)
 );
