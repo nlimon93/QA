@@ -211,8 +211,6 @@ async function queryQuestionList(folder, user) {
     } else {
         let qList = await response.json();
         //Itterate through the list
-        console.log(qList[0].questionID)
-
         for (let i = 0; i < qList.length; i++) {
             let Q = JSON.parse(qList[i].question);
             let qid = qList[i].questionID;
