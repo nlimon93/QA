@@ -45,27 +45,30 @@ CREATE TABLE IF NOT EXISTS RoomConnections (
 *    (session_id, id, room_key) Value (?, ?, ?)" All other fields
 *    will auto-fill.
 */
+DELIMITER ^^;
 Create TRIGGER IF NOT EXISTS qaProject.room_connect_bi
 BEFORE INSERT ON qaProject.RoomConnections
-{
+BEGIN
 
     set New.connectTime = NOW();
     -- Increment the active connections on room connection
     update Rooms 
         set active_connections = active_connections +1
         where room_key = new.room_key;
-}
+END^^
 
 /* To leave a room, call an update on the current roomConnection
 *  with endTime set to now()
 */
 Create TRIGGER IF NOT EXISTS qaProject.room_connect_bu
 BEFORE UPDATE ON qaProject.RoomConnections
-{
+BEGIN
     if (NEW.exitTime != NULL) THEN
         -- Increment the active connections on room connection
         update Rooms 
             set active_connections = active_connections - 1
             where room_key = new.room_key;
     end if;
-}
+END ^^
+
+DELIMITER ;
