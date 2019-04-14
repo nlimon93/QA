@@ -13,8 +13,8 @@
                 if(substr($statement->error,0,9)=='Duplicate') {
                     $result = "Successfully logged in";
                 }
-                else {
-                    printf("Failed. %s", $statement->error);
+                else if ($statement->affected_rows >0) {
+                    $result = "Successfully logged in.";
                 }
             }
             else {
@@ -30,9 +30,9 @@
         <form method="post" style="hidden" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             Account ID: <input type="number" name="attendee_id"><br>
             Course ID: <input type="text" name="course_key"><br>
-            <input type="submit">
-            <input type="text" style="hidden" action="<?php echo $result?>">
+            <input type="submit"><br>
         </form>
+        <?php if (isset($result) && $result!== "") echo $result ?>
         <?php
     }
     

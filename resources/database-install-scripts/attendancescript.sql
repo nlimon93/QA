@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS qaProject.attendees(
 CREATE TABLE IF NOT EXISTS qaProject.AttendanceKeys(
     course_id int NOT NULL,
     session_date date NOT NULL,
-    attendance_key varchar(8) NOT NULL,
+    attendance_key varchar(5) NOT NULL,
     PRIMARY KEY(course_id, session_date),
     CONSTRAINT fk_course_id_from_keys FOREIGN KEY (course_id)
         REFERENCES Courses(course_id)
@@ -42,15 +42,15 @@ DELIMITER ^^
 CREATE TRIGGER IF NOT EXISTS qaProject.date_key_generator_bi
 BEFORE INSERT ON AttendanceKeys FOR EACH ROW 
 BEGIN
-	declare rnd_str varchar(8);
+	declare rnd_str varchar(5);
     declare rdy int;
     set rdy = 0;
 /* The following section sets the course key to a random string of
 *  8 characters, (A-Z, 1-9) if it has not */
 if isnull(NEW.attendance_key) THEN
     while (not rdy) do
-        set rnd_str := lpad(conv(floor(rand()*pow(36,8)), 10, 36), 8, 0);
-            if not exists (select * from course_attendance_key where attendance_key = rnd_str) then
+        set rnd_str := lpad(conv(floor(rand()*pow(36,5)), 10, 36), 5, 0);
+            if not exists (select * from AttendanceKeys where attendance_key = rnd_str) then
                 set NEW.attendance_key := rnd_str;
                 set rdy = 1;
             end if;
