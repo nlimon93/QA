@@ -100,12 +100,13 @@
         }
     }
     //Updates a Question
-    function updateQuestion($question, $folder, $questionID) {
+    function updateQuestion($questionID, $question, $folder) {
         global $MYSQLi;
         if ($statement = $MYSQLi->prepare('UPDATE questiontable set question = ? where questionID = ? AND folderID = ?')) {
             $statement->bind_param('sss', $question, $questionID, $folder);
-            $statement->execute();
+            $result = $statement->execute();
             $statement->close();
+            return $result;
         }
         else {
             //Throw Error
@@ -130,28 +131,53 @@
             return "Make Question Failed";
         }
     }
+    function deleteQuestion($folder, $question) {
+        global $MYSQLi;
+        if($statement = $MYSQLi->prepare('DELETE LOW_PRIORITY FROM questiontable WHERE questionID = ? AND folderID = ?')) {
+            $statement->bind_param('ss', $question, $folder);
+            $result = $statement->execute();
+            $statement->close();
+            return $result;
+        }
+    }
     //Gets the list of Question Sets
     function getQSets($folder) {
         global $MYSQLi;
-        if (false) {
+        if ($statement = $MYSQLi->prepare('SELECT qSetId, qSetName, qSetDesc FROM questionsets where folderID = ?')) {
+            $statement->bind_param('s', $folder);
+            $statement->execute();
+            $return = $statement->get_result();
+            $statement->close();
+            return $return->fetch_all(MYSQLI_ASSOC);
         }
         else {
             //Throw Error
+            return("Something Failed in getQset statment");
         }
     }
     //Gets a Single Set
     function getQset($folder, $setID) {
         global $MYSQLi;
-        if (false) {
+        if ($statement = $MYSQLi->prepare('SELECT qSetName, qSetDesc FROM questionsets where folderID = ? AND qSetID = ?')) {
+            $statement->bind_param('ss', $folder, $setID);
+            $statement->execute();
+            $return = $statement->get_result();
+            $statement->close();
+            return $return-fetch(MYSQLI_ASSOC);
+
         }
         else {
             //Throw Error
+            return("something failed in get Q set");
         }
     }
     //Sets.. a question..set?
-    function makeSet($folder, $setName) {
+    function makeSet($folder, $setName, $setDesc) {
         global $MYSQLi;
-        if (false) {
+        if ($statement = $MYSQLi->prepare('INSERT into questionsets (qSetName, qSetDesc, folder) VALUES (?, ?, ?)')) {
+            $statement->bind_param('sss', $setName, $setDesc, $folder);
+            $statement->executue();
+            $statement->close();
         }
         else {
             //Throw Error

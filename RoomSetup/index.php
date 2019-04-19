@@ -17,8 +17,8 @@
                 if (sizeof($folders) > 0) :
                     foreach($folders as $i=>$index) :?>
                         <div class="folderIter dragable" onclick="queryQuestionList(<?php echo $index['folderID']?>, <?php echo $_SESSION['id']?>)">
-                            <h1 ondblclick="convertToForm(this, 'folderN', '<?php echo $index['folderDescription']?>', '<?php echo $_SESSION['id']?>', '<?php echo $index['folderID']; ?>')" class="renameable"><?php echo $index['folderName'];?></h1>
-                            <p ondblclick="convertToForm(this, 'folderD', '<?php echo $index['folderName']?>', '<?php echo $_SESSION['id']?>', '<?php echo $index['folderID']; ?>')" class="renamable"><?php echo $index['folderDescription'];?></p>
+                            <h1 ondblclick="convertFolderToForm(this, 'folderN', '<?php echo $index['folderDescription']?>', '<?php echo $_SESSION['id']?>', '<?php echo $index['folderID']; ?>')" class="renameable"><?php echo $index['folderName'];?></h1>
+                            <p ondblclick="convertFolderToForm(this, 'folderD', '<?php echo $index['folderName']?>', '<?php echo $_SESSION['id']?>', '<?php echo $index['folderID']; ?>')" class="renamable"><?php echo $index['folderDescription'];?></p>
                             <button type="button" onclick="deleteFolder(this, <?php echo $index['folderID']; ?>, <?php echo $_SESSION['id']?>)">TRASHICON</button>
                         </div>
             <?php endforeach; endif;?>
